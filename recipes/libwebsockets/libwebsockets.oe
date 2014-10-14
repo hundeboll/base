@@ -1,0 +1,6 @@
+require libwebsockets.inc
+
+SRC_REV ?= "commit=917f43ab821382bb54a3e9d65270c0946b89c1cf"
+SRC_URI = "git://git.warmcat.com/libwebsockets;${SRC_REV}"
+
+S = "${SRCDIR}/libwebsockets"
