@@ -1,0 +1,5 @@
+require mosquitto.inc
+
+
+SRC_REV ?= "commit=ac009497936705f0198863767b495edb4bb22984"
+SRC_URI = "git://git.eclipse.org/r/#/admin/projects/mosquitto/org.eclipse.mosquitto;protocol=https;${SRC_REV}"
