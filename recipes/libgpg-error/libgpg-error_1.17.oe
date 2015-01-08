@@ -1,0 +1,17 @@
+require ${PN}.inc
+
+LICENSE = "GPLv2+ & LGPLv2.1+"
+
+SRC_URI += "file://pkgconfig.patch"
+
+LIBRARY_VERSION = "0"
+
+DEPENDS += "libpthread"
+
+do_compile[prefuncs] += "do_compile_ensure_correct_lockfile"
+do_compile_ensure_correct_lockfile () {
+    cd ${S}/src/syscfg/
+    ln -sf lock-obj-pub.${HOST_CPU}-unknown-${HOST_OS}.h \
+        lock-obj-pub.${HOST_CPU}-${HOST_VENDOR}-${HOST_OS}.h
+    cd -
+}
