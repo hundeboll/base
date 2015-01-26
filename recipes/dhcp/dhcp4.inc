@@ -56,8 +56,8 @@ do_install_extra_files () {
 	install -m 0644 ${SRCDIR}/default-server \
 		${D}${sysconfdir}/default/dhcp-server
 
-	rm -f ${D}${sysconfdir}/dhclient.conf
-	rm -f ${D}${sysconfdir}/dhcpd.conf
+	rm -f ${D}${sysconfdir}/dhclient.conf*
+	rm -f ${D}${sysconfdir}/dhcpd.conf*
 	install -m 0644 ${SRCDIR}/dhclient.conf \
 		${D}${sysconfdir}/dhcp/dhclient.conf
 	install -m 0644 ${SRCDIR}/dhcpd.conf \
