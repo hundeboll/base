@@ -8,7 +8,6 @@ SRC_URI += "file://nobash.patch"
 
 DEPENDS += "bind-dev"
 EXTRA_OECONF += "--with-libbind=${TARGET_SYSROOT}${target_libdir}/.."
-EXTRA_OECONF += 'LIBS="-lssl -lcrypto"'
 
 PACKAGES += "${PN}-examples"
 FILES_${PN}-examples = "${sysconfdir}/*.example"
