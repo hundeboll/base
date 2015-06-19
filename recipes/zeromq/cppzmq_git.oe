@@ -1,0 +1,17 @@
+DESCRIPTION = "C++ bindings for ZeroMQ"
+HOMEPAGE = "http://www.zeromq.org"
+LICENSE = "MIT"
+SRC_URI = "git://github.com/zeromq/cppzmq.git;protocol=http;${SRC_REV}"
+SRC_REV = "commit=ac705f604701e2ca1643fa31bae240f9da8b9b9a"
+
+S = "${SRCDIR}/cppzmq"
+
+do_install () {
+    install -d ${D}/usr/include
+    install -m 0755 ${S}/zmq.hpp ${D}/usr/include/
+}
+
+PACKAGES = "${PN}-dev"
+DEPENDS = "libzmq"
+DEPENDS_${PN} = "zeromq-dev"
+DEPENDS_${PN}-dev = "zeromq-dev"
