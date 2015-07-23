@@ -1,0 +1,22 @@
+DESCRIPTION = "GYP can Generate Your Projects."
+LICENSE = "BSD-3"
+RECIPE_TYPES = "native"
+DEPENDS = "native:setuptools"
+
+SRC_REV = "commit=25ed9ac4ac2a4d2a08909225fbb6d56e89ad38a6"
+SRC_URI = "git://chromium.googlesource.com/external/gyp;protocol=https;${SRC_REV}"
+S = "${SRCDIR}/gyp"
+FILES_${PN} += "/lib/python"
+
+PYTHON_PATH = "${BUILD_SYSROOT}/lib/python:${D}${libdir}/python"
+
+do_compile() {
+    export PYTHONPATH=${PYTHON_PATH}
+    python setup.py build
+}
+
+do_install() {
+    install -d ${D}${libdir}/python
+    export PYTHONPATH=${PYTHON_PATH}
+    python setup.py install --home ${D}
+}
