@@ -1,0 +1,3 @@
+require setuptools.inc
+
+S = "${SRCDIR}/pypa-setuptools-e364795c1b09"
