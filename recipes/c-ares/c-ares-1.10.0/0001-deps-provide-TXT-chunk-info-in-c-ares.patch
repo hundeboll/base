@@ -1,0 +1,62 @@
+From a60a9b0dbd064cd70de9400ad47421c19d29b021 Mon Sep 17 00:00:00 2001
+From: Fedor Indutny <fedor@indutny.com>
+Date: Fri, 28 Mar 2014 00:09:20 +0400
+Subject: [PATCH] deps: provide TXT chunk info in c-ares
+
+Provide more information in `ares_txt_reply` to coalesce chunks from the
+same record into one string.
+
+upstream-status: unappropriate - needed for nodejs only
+
+---
+ ares.h             |  2 ++
+ ares_parse_txt_reply.c |  5 +++--
+ 4 files changed, 22 insertions(+), 6 deletions(-)
+
+diff --git a/ares.h b/ares.h
+index 3d0f9cf..3091064 100644
+--- a/ares.h
++++ b/ares.h
+@@ -520,6 +520,8 @@ struct ares_txt_reply {
+   struct ares_txt_reply  *next;
+   unsigned char          *txt;
+   size_t                  length;  /* length excludes null termination */
++  unsigned char           record_start;  /* 1 - if start of new record
++                                          * 0 - if a chunk in the same record */
+ };
+ 
+ struct ares_naptr_reply {
+diff --git a/ares_parse_txt_reply.c b/ares_parse_txt_reply.c
+index 981db4c..dabf73c 100644
+--- a/ares_parse_txt_reply.c
++++ b/ares_parse_txt_reply.c
+@@ -133,8 +133,6 @@ ares_parse_txt_reply (const unsigned char *abuf, int alen,
+                   break;
+                 }
+ 
+-              ++strptr;
+-
+               /* Allocate storage for this TXT answer appending it to the list */
+               txt_curr = ares_malloc_data(ARES_DATATYPE_TXT_REPLY);
+               if (!txt_curr)
+@@ -152,6 +150,7 @@ ares_parse_txt_reply (const unsigned char *abuf, int alen,
+                 }
+               txt_last = txt_curr;
+ 
++              txt_curr->record_start = strptr == aptr;
+               txt_curr->length = substr_len;
+               txt_curr->txt = malloc (substr_len + 1/* Including null byte */);
+               if (txt_curr->txt == NULL)
+@@ -159,6 +158,8 @@ ares_parse_txt_reply (const unsigned char *abuf, int alen,
+                   status = ARES_ENOMEM;
+                   break;
+                 }
++
++              ++strptr;
+               memcpy ((char *) txt_curr->txt, strptr, substr_len);
+ 
+               /* Make sure we NULL-terminate */
+ 
+-- 
+2.6.1
+
