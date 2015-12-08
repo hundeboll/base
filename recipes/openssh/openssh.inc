@@ -84,7 +84,10 @@ FILES_${PN}-ssh = "${sysconfdir}/ssh/ssh_config ${bindir}/slogin"
 FILES_${PN}-ssh-doc = "${mandir}/*/ssh_config.* ${mandir}/*/slogin.*"
 FILES_${PN}-sshd = "${sysconfdir}/init.d/sshd \
 	${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config \
-	${localstatedir}/run/sshd"
+	${localstatedir}/run/sshd \
+	${sysconfdir}/rcS.d \
+	${passwddir} ${groupdir} \
+"
 FILES_${PN}-sshd-doc = "${mandir}/*/moduli.* ${mandir}/*/sshd_config.*"
 
 RDEPENDS_${PN} += "${AUTO_PACKAGE_UTILS_PACKAGES}"
