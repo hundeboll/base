@@ -16,7 +16,7 @@ COMPATIBLE_HOST_ARCHS = ".*linux"
 inherit autotools passwd
 
 SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.gz"
-SRC_URI += "file://sshd_config file://ssh_config file://init"
+SRC_URI += "file://init"
 SRC_URI += "file://passwd file://group"
 SRC_URI += "file://sftp-server-skip-libcrypto.patch"
 
@@ -62,10 +62,9 @@ do_configure_host_key_generation() {
         -i ${SRCDIR}/init
 }
 
-do_compile[postfuncs] += "do_compile_install_config_files"
-do_compile_install_config_files () {
-	install -m 0644 ${SRCDIR}/sshd_config ${S}/
-	install -m 0644 ${SRCDIR}/ssh_config ${S}/
+do_install[postfuncs] += "do_install_config_files"
+do_install_config_files () {
+	sed -i -E 's!^#(PermitRootLogin) .+!\1 yes!' ${D}${sysconfdir}/ssh/sshd_config
 }
 
 do_install[postfuncs] += "do_install_extra_files"
