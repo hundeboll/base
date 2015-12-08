@@ -63,9 +63,15 @@ do_configure_host_key_generation() {
         -i ${SRCDIR}/init
 }
 
+RECIPE_FLAGS += "openssh_kex_extra"
 do_install[postfuncs] += "do_install_config_files"
+do_install_config_files[expand] = 3
 do_install_config_files () {
 	sed -i -E 's!^#(PermitRootLogin) .+!\1 yes!' ${D}${sysconfdir}/ssh/sshd_config
+
+	if [ "${USE_openssh_kex_extra}" ]; then
+		echo "KexAlgorithms +${USE_openssh_kex_extra}" >> ${D}${sysconfdir}/ssh/sshd_config
+	fi
 }
 
 do_install[postfuncs] += "do_install_extra_files"
@@ -117,7 +123,7 @@ DEPENDS_${PN}-sshd              += "libc libcrypt libcrypto libdl libresolv libu
 DEPENDS_${PN}-sftp              += "libc libcrypt libcrypto libdl libresolv libutil libz"
 
 inherit sysvinit
-RECIPE_FLAGS = "sshd_sysvinit_start sshd_sysvinit_stop"
+RECIPE_FLAGS += "sshd_sysvinit_start sshd_sysvinit_stop"
 DEFAULT_USE_sshd_sysvinit_start = "25"
 DEFAULT_USE_sshd_sysvinit_stop = "0"
 
