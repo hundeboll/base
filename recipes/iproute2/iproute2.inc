@@ -26,11 +26,14 @@ FILES_${PN}-dbg += "${base_libdir}/tc/.debug"
 
 AUTO_PACKAGE_UTILS = "ifcfg ip routef routel rtmon rtpr tc"
 DEPENDS_${PN}-ip += "libc libdl"
-RDEPENDS_${PN}-ip += "libc libdl"
+RDEPENDS_${PN}-ip += "libc libdl ${PN}-config"
 DEPENDS_${PN}-rtmon += "libc libdl"
 RDEPENDS_${PN}-rtmon += "libc libdl"
 DEPENDS_${PN}-tc += "libc libm libdl"
 RDEPENDS_${PN}-tc += "libc libm libdl"
+
+PACKAGES =+ " ${PN}-config"
+FILES_${PN}-config = "${sysconfdir}/iproute2/*"
 
 RECIPE_FLAGS = "iproute2_rt_tables"
 RDEPENDS_${PN}-ip:>USE_iproute2_rt_tables = " iproute2"
