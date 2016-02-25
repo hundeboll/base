@@ -1,0 +1,2 @@
+require helloworld.inc
+SRC_REV = "e2286f3e291c5d88f5fe8ef679c2f34bf34f7f7d"
