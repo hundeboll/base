@@ -10,7 +10,7 @@ HOMEPAGE = "http://www.pcre.org/"
 
 RECIPE_TYPES = "native machine sdk"
 
-inherit c++ autotools-autoreconf binconfig pkgconfig
+inherit c++ autotools-autoreconf pkgconfig
 
 require conf/fetch/sourceforge.conf
 SRC_URI = "${SOURCEFORGE_MIRROR}/project/${PN}/${PN}/${PV}/${P}.tar.gz"
@@ -53,4 +53,4 @@ AUTO_PACKAGE_LIBS_PCPREFIX = "lib"
 AUTO_PACKAGE_LIBS_DEV_DEPENDS = "${PN}-dev_${PV}"
 DEPENDS_${PN}-libpcreposix = "libpcre libc"
 DEPENDS_${PN}-libpcrecpp = "libpcre libc libm libgcc libstdc++"
-DEPENDS_${PN}-libpcre = "libc"
+DEPENDS_${PN}-libpcre = "libc cross:pcre-binconfig"

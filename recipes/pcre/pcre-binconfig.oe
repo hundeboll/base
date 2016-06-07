@@ -1,0 +1,10 @@
+DESCRIPTION = "Recipe to provide a symlink to machine:pcre-config in stage/cross/bin/"
+LICENSE = "MIT"
+
+RECIPE_TYPES = "cross"
+FILES_${PN} = "${bindir}"
+
+do_install() {
+    install -d ${D}${bindir}
+    ln -s ../../machine${machine_bindir} ${D}${bindir}/pcre-config
+}
